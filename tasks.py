@@ -8,48 +8,70 @@ from sklearn import datasets
 # Then copy and paste code asked for below in between the dashed lines.
 # Do not import additional packages.
 
-# Task 1: 
+# Task 1:
 # Instructions:
 # In the notebook, you wrote a function that implements an MLP with 2 hidden layers.
-# The function should accept a vector of weights and a matrix X that stores input feature 
+# The function should accept a vector of weights and a matrix X that stores input feature
 # vectors in its **columns**.
 # The name of the function should be my_mlp.
 
 # Copy and paste the code for that function here:
 # -----------------------------------------------
-def my_mlp():
-    pass  # replace with implementation
+
+def my_mlp(w, X, sigma=np.tanh):
+
+    W1 = w[np.arange(24).reshape((4, 6))]
+    W2 = w[np.arange(24, 52).reshape((7, 4))]
+    W3 = w[np.arange(52, 59).reshape((1, 7))]
+
+    a1 = sigma(W1 @ X)
+    a2 = sigma(W2 @ a1)
+    f  = sigma(W3 @ a2)
+
+    return f
 
 # -----------------------------------------------
 
-# Task 2: 
+# Task 2:
 # Instructions:
 # In the notebook, you wrote a function that implements a loss function for training
 # the MLP implemented by my_mlp of Task 1.
-# The function should accept a vector of weights, a matrix X that stores input feature 
+# The function should accept a vector of weights, a matrix X that stores input feature
 # vectors in its **columns**, and a vector y that stores the target labels (-1 or +1).
 # The name of the function should be MSE_func.
 
 # Copy and paste the code for that function here:
 # -----------------------------------------------
-def MSE_func():
-    pass  # replace with implementation
+
+def MSE_func(w, X, y):
+
+    f = my_mlp(w, X)
+    MSE = np.sum((f - y) ** 2)
+
+    return MSE
 
 # -----------------------------------------------
 
-# Task 3: 
+# Task 3:
 # Instructions:
 # In the notebook, you wrote a function that returns the gradient vector for the least
 # squares (simple) linear regression loss function.
-# The function should accept a vector beta that contains the intercept (β₀) and the slope (β₁), 
+# The function should accept a vector beta that contains the intercept (β₀) and the slope (β₁),
 # a vector x that stores values of the independent variable, and a vector y that stores
-# the values of the dependent variable and should return an np.array() that has the derivative values 
+# the values of the dependent variable and should return an np.array() that has the derivative values
 # as its components.
 # The name of the function should be dR.
 
 # Copy and paste the code for that function here:
 # -----------------------------------------------
-def dR():
-    pass  # replace with implementation
+
+def dR(beta, x, y):
+    b0 = beta[0]
+    b1 = beta[1]
+    n = len(x)
+    dbeta_0 = (2 / n) * np.sum(b0 + b1 * x - y)
+    dbeta_1 = (2 / n) * np.sum((b0 + b1 * x - y) * x)
+
+    return np.array([dbeta_0, dbeta_1])
 
 # -----------------------------------------------
